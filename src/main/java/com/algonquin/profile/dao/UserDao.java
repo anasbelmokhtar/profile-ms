@@ -22,6 +22,12 @@ public class UserDao {
         return rowsAffected;
     }
 
+    public int changePassword(Credentials cs) {
+        String sql = "UPDATE RecipeBook.Users SET UserPassword = ? WHERE Username = ?";
+        int rowsAffected = jdbcTemplate.update(sql,new Object[]{cs.getPassword(), cs.getUsername()});
+        return rowsAffected;
+    }
+
     private static class UserRowMapper implements RowMapper<User>{
 
         @Override
@@ -41,16 +47,15 @@ public class UserDao {
         this.jdbcTemplate = template;
     }
     public List<User> getAllUsers() {
-        String sql = "SELECT Username, Email, FirstName, LastName, Phone FROM RecipeBook.Users ";
+        String sql = "SELECT Username, Email, FirstName, LastName, Phone FROM RecipeBook.Users";
         List<User> users = jdbcTemplate.query(sql,new UserRowMapper());
         return users;
 
     }
     public int storeCredentials(User u) throws SQLException, SQLException {
-
-        String sql = "INSERT INTO RecipeBook.Users (Username, UserPassword, LastName, FirstName, Email, Phone, Token, UserStatus) VALUES (?,?,?,?,?,?,?,?)";
-        int rowsAffected = jdbcTemplate.update(sql, new Object[]{u.getUsername(),u.getPassword(),u.getLastName(),u.getFirstName(),u.getEmail(),u.getPhone(),u.getToken().toString(),"pending"});
-        return rowsAffected;
+            String insert = "INSERT INTO RecipeBook.Users (Username, UserPassword, LastName, FirstName, Email, Phone, Token, UserStatus) VALUES (?,?,?,?,?,?,?,?)";
+            int rowsAffected = jdbcTemplate.update(insert, new Object[]{u.getUsername(),u.getPassword(),u.getLastName(),u.getFirstName(),u.getEmail(),u.getPhone(),u.getToken().toString(),"pending"});
+            return rowsAffected;
     }
     public User login(Credentials cs) throws SQLException {;
 

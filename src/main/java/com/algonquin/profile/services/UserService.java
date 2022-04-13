@@ -50,4 +50,8 @@ public class UserService {
     public int validateUser(String token) {
         return userDao.validateUser(token);
     }
+
+    public int changePassword(Credentials cs) {
+        return userDao.changePassword(cs);
+    }
 }

@@ -1,4 +1,5 @@
 package com.algonquin.profile.controllers;
+
 import com.algonquin.profile.model.Credentials;
 import com.algonquin.profile.model.User;
 import com.algonquin.profile.services.UserService;
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class ProfileController {
     @Autowired
@@ -24,12 +26,15 @@ public class ProfileController {
     public int validateUser(@PathVariable String token){
         return userService.validateUser(token);
     }
-    @PostMapping("/recipe-book/login")
+    @PostMapping("/users/authenticate")
     public User login(@RequestBody Credentials cs) throws SQLException {
 
         User user = userService.login(cs);
 
         return user;
     }
-
+    @PostMapping("/recipe-book/password-reset")
+    public int changePassword(@RequestBody Credentials cs) {
+        return userService.changePassword(cs);
+    }
 }
