@@ -18,9 +18,10 @@ public class ProfileController {
 
     }
     @PostMapping("/recipe-book/registration")
-    public User createUser(@RequestBody User s) throws SQLException {
+    public void createUser(@RequestBody User s) throws SQLException {
+        System.out.println(s.toString());
         userService.register(s);
-        return s;
+
     }
     @GetMapping(value = "/recipe-book/registration/{token}")
     public int validateUser(@PathVariable String token){

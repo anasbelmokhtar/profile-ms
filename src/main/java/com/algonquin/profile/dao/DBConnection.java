@@ -31,11 +31,11 @@ public class DBConnection {
         synchronized (DBConnection.class) {
             try {
                 // load the driver class
-                Class.forName("software.aws.rds.jdbc.mysql.Driver");
+                Class.forName("com.mysql.cj.jdbc.Driver");
                 System.out.println("MySQL JDBC Driver Registered!");
 
                 // get hold of the DriverManager
-                connection = DriverManager.getConnection("algonquin.cm8n68utxbz6.us-east-1.rds.amazonaws.com,3306", "ab", "anas7860");
+                connection = DriverManager.getConnection("sql5.freemysqlhosting.net", "sql5485812", "nB4lQFT8gN");
 
             } catch (ClassNotFoundException e) {
                 System.out.println("Where is your MySQL JDBC Driver?");

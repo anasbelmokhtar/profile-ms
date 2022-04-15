@@ -17,13 +17,13 @@ public class UserDao {
     private JdbcTemplate jdbcTemplate;
 
     public int validateUser(String token) {
-        String sql = "UPDATE RecipeBook.Users SET UserStatus = 'active' WHERE TOKEN = ?";
+        String sql = "UPDATE sql5485812.Users SET UserStatus = 'active' WHERE TOKEN = ?";
         int rowsAffected = jdbcTemplate.update(sql,new Object[]{token});
         return rowsAffected;
     }
 
     public int changePassword(Credentials cs) {
-        String sql = "UPDATE RecipeBook.Users SET UserPassword = ? WHERE Username = ?";
+        String sql = "UPDATE sql5485812.Users SET UserPassword = ? WHERE Username = ?";
         int rowsAffected = jdbcTemplate.update(sql,new Object[]{cs.getPassword(), cs.getUsername()});
         return rowsAffected;
     }
@@ -47,19 +47,26 @@ public class UserDao {
         this.jdbcTemplate = template;
     }
     public List<User> getAllUsers() {
-        String sql = "SELECT Username, Email, FirstName, LastName, Phone FROM RecipeBook.Users";
+        String sql = "SELECT Username, Email, FirstName, LastName, Phone FROM sql5485812.Users";
         List<User> users = jdbcTemplate.query(sql,new UserRowMapper());
         return users;
 
     }
     public int storeCredentials(User u) throws SQLException, SQLException {
-            String insert = "INSERT INTO RecipeBook.Users (Username, UserPassword, LastName, FirstName, Email, Phone, Token, UserStatus) VALUES (?,?,?,?,?,?,?,?)";
-            int rowsAffected = jdbcTemplate.update(insert, new Object[]{u.getUsername(),u.getPassword(),u.getLastName(),u.getFirstName(),u.getEmail(),u.getPhone(),u.getToken().toString(),"pending"});
+        System.out.println(u.getUsername());
+            String insert = "INSERT INTO sql5485812.Users (Username, UserPassword, Email) VALUES (?,?,?)";
+            int rowsAffected = jdbcTemplate.update(insert, new Object[]{u.getUsername(),u.getPassword(),u.getEmail()});
             return rowsAffected;
+    }
+    public int updateUser(User u) throws SQLException, SQLException {
+        System.out.println(u.toString());
+        String insert = "INSERT INTO sql5485812.Users (Username, UserPassword, LastName, FirstName, Email, Phone, Token, UserStatus) VALUES (?,?,?,?,?,?,?,?)";
+        int rowsAffected = jdbcTemplate.update(insert, new Object[]{u.getUsername(),u.getPassword(),u.getLastName(),u.getFirstName(),u.getEmail(),u.getPhone(),u.getToken().toString(),"pending"});
+        return rowsAffected;
     }
     public User login(Credentials cs) throws SQLException {;
 
-        String sql = "SELECT Username, Email, FirstName, LastName, Phone FROM RecipeBook.Users WHERE Username = ? AND UserPassword = ? AND UserStatus = 'active'";
+        String sql = "SELECT Username, Email, FirstName, LastName, Phone FROM sql5485812.Users WHERE Username = ? AND UserPassword = ? AND UserStatus = 'active'";
         User user = jdbcTemplate.queryForObject(sql,new UserRowMapper(), cs.getUsername(), cs.getPassword());
         return user;
     }
